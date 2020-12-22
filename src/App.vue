@@ -1,15 +1,36 @@
 <template>
   <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <!-- <h2>Hello Bangladesh</h2> -->
+  <AddUser @add-user="storeUser" />
+  <Show :allUser="users" />
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
+import AddUser from './components/AddUser'
+import Show from './components/Show'
+import axios from 'axios'
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    AddUser,Show,
+  },
+  data() {
+    return {
+        users:[],
+    };
+  },
+  methods:{
+      storeUser:function (user){
+        this.users = [user, ...this.users];
+      }
+  },
+  async created(){
+    try {
+        const response = await axios.get("https://jsonplaceholder.typicode.com/users");
+        console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
   }
 }
 </script>
